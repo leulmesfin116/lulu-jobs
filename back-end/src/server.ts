@@ -1,5 +1,8 @@
 import express from "express";
 import resumeRoute from "./Routes/resumeRoute.ts";
+import { config } from "dotenv";
+
+config();
 
 const app = express();
 
