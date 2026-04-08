@@ -7,8 +7,9 @@ export const db = new PrismaClient({
 const connectDb=async()=>{
   try{
     await prisma.$connect()
-  }catch(){
-
+    console.log("DB is connected via prisma")
+  }catch(error){
+    console.log(`DB connection error ${error}`)
   }
 }
 const disconnectDb=async()=>{}
