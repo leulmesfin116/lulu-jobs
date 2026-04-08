@@ -1,8 +1,11 @@
 import express from "express";
 import resumeRoute from "./Routes/resumeRoute.ts";
 import { config } from "dotenv";
+import { connectDb, disconnectDb } from "./config/db.ts";
 
 config();
+connectDb();
+disconnectDb();
 
 const app = express();
 
@@ -19,4 +22,26 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
+});
+process.on("unhandledRejection", (err) => {
+  console.error("unhandledRejection", err);
+  server.close(async () => {
+    await disconnectDb();
+    process.exit(1);
+  });
+});
+
+// handle uncaught exception
+process.on("uncaughtException", async (err) => {
+  console.error("uncaughtException", err);
+  await disconnectDb();
+  process.exit(1);
+});
+// graceful shutdown
+process.on("SIGTERM", async () => {
+  console.log("SIGTERM recieved,shutting down gracefully");
+  server.close(async () => {
+    await disconnectDb();
+    process.exit(0);
+  });
 });
