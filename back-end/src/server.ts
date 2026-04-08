@@ -5,7 +5,8 @@ const app = express();
 
 app.use(express.json());
 
-app.use("/api", resumeRoute);
+// api routes
+app.use("/resume", resumeRoute);
 
 app.get("/", (req, res) => {
   res.send("Server is up and running");
