@@ -10,6 +10,7 @@ disconnectDb();
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // api routes
 app.use("/resume", resumeRoute);
