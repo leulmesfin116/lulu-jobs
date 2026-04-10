@@ -24,4 +24,42 @@ model User{
   password String
   createdAt DateTime @default(now())
   role Role @default(USER)
+  resume Resume[]
+  userAI AIGeneration[]
+}
+model Resume{
+  id String @id @default(uuid())
+  user_id String
+  title String
+  createdAt DateTime @default(now())
+  updated_At DateTime @updatedAt
+
+  usersResume ResumeSection[]
+  Resumeai AIGeneration[]
+  user User @relation(fields: [user_id], references:[id])
+}
+model ResumeSection {
+  id        String   @id @default(uuid())
+  resumeId  String
+  type      String  
+  content   String
+
+  resume    Resume   @relation(fields: [resumeId], references: [id])
+}
+model AIGeneration {
+  id        String   @id @default(uuid())
+  userId    String
+  resumeId  String?
+  prompt    String
+  result    String
+  createdAt DateTime @default(now())
+
+  user      User    @relation(fields: [userId], references: [id])
+  resume    Resume? @relation(fields: [resumeId], references: [id])
+}
+model Export {
+  id        String   @id @default(uuid())
+  resumeId  String
+  fileUrl   String
+  createdAt DateTime @default(now())
 }
