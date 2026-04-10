@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 import { db } from "../config/db.ts";
-
+import bcrypt from "bcryptjs";
 type userInput = {
   name: string;
   email: string;
@@ -11,7 +11,37 @@ const register = async (req: Request, res: Response) => {
   // checking if the user exists
   const userExists = await db.user.findUnique({ where: { email: email } });
   if (userExists) {
-    return res.json({ message: "user already exists" });
+    return res.status(400).json({ message: "user already exists" });
+  }
+  // hashing the  password
+  const salt = await bcrypt.genSalt(11);
+  const hashPassword = await bcrypt.hash(password, salt);
+  // create a user
+  const user = await db.user.create({
+    data: {
+      name,
+      email,
+      password: hashPassword,
+    },
+  });
+  res.status(201).json({
+    status: "success",
+    data: {
+      user: {
+        id: user.id,
+        name: name,
+        email: email,
+      },
+    },
+  });
+};
+const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  const userExist = await db.user.findUnique({
+    where: { email: email },
+  });
+  if (userExist) {
+    res.status(200).json({ message: "user exists" });
   }
 };
-export { register };
+export { register, login };
