@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 process.on("unhandledRejection", (err) => {
@@ -45,4 +45,3 @@ process.on("SIGTERM", async () => {
     process.exit(0);
   });
 });
-kk;
