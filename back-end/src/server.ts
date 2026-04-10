@@ -2,7 +2,7 @@ import express from "express";
 import resumeRoute from "./Routes/resumeRoute.ts";
 import { config } from "dotenv";
 import { connectDb, disconnectDb } from "./config/db.ts";
-
+import authRoute from "./Routes/authRoute.ts";
 config();
 connectDb();
 disconnectDb();
@@ -13,11 +13,11 @@ app.use(express.json());
 
 // api routes
 app.use("/resume", resumeRoute);
+app.use("/auth", authRoute);
 
 app.get("/", (req, res) => {
   res.send("Server is up and running");
 });
-
 const PORT = process.env.PORT || 5000;
 
 const server = app.listen(PORT, () => {
