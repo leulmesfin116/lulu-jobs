@@ -35,13 +35,5 @@ const register = async (req: Request, res: Response) => {
     },
   });
 };
-const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
-  const userExist = await db.user.findUnique({
-    where: { email: email },
-  });
-  if (userExist) {
-    res.status(200).json({ message: "user exists" });
-  }
-};
+
 export { register, login };
