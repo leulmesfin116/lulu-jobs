@@ -48,6 +48,8 @@ const login = async (req: Request, res: Response) => {
   if (!isPasswordValid) {
     return res.status(401).json({ message: "invalid email or password" });
   }
+  // generating Token
+
   res.status(201).json({
     status: "success",
     data: {
