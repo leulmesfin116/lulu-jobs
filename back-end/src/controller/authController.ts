@@ -9,8 +9,8 @@ type userInput = {
 const register = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
   // checking if the user exists
-  const userExists = await db.user.findUnique({ where: { email: email } });
-  if (userExists) {
+  const users = await db.user.findUnique({ where: { email: email } });
+  if (users) {
     return res.status(400).json({ message: "user already exists" });
   }
   // hashing the  password
@@ -37,11 +37,25 @@ const register = async (req: Request, res: Response) => {
 };
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  const userExist = await db.user.findUnique({
+  const user = await db.user.findUnique({
     where: { email: email },
   });
-  if (userExist) {
-    res.status(200).json({ message: "user exists" });
+  if (!user) {
+    return res.status(401).json({ message: "invalid email or password" });
   }
+  // verify password
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (!isPasswordValid) {
+    return res.status(401).json({ message: "invalid email or password" });
+  }
+  res.status(201).json({
+    status: "success",
+    data: {
+      user: {
+        id: user.id,
+        email: email,
+      },
+    },
+  });
 };
 export { register, login };
