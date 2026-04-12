@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { db } from "../config/db.ts";
 import bcrypt from "bcryptjs";
+import { generateToken } from "../utils/generateToken.ts";
 type userInput = {
   name: string;
   email: string;
@@ -24,6 +25,7 @@ const register = async (req: Request, res: Response) => {
       password: hashPassword,
     },
   });
+  const token = generateToken(user.id);
   res.status(201).json({
     status: "success",
     data: {
@@ -32,6 +34,7 @@ const register = async (req: Request, res: Response) => {
         name: name,
         email: email,
       },
+      token,
     },
   });
 };
@@ -49,7 +52,7 @@ const login = async (req: Request, res: Response) => {
     return res.status(401).json({ message: "invalid email or password" });
   }
   // generating Token
-
+  const token = generateToken(user.id);
   res.status(201).json({
     status: "success",
     data: {
@@ -57,6 +60,7 @@ const login = async (req: Request, res: Response) => {
         id: user.id,
         email: email,
       },
+      token,
     },
   });
 };
