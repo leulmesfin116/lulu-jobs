@@ -25,7 +25,7 @@ const register = async (req: Request, res: Response) => {
       password: hashPassword,
     },
   });
-  const token = generateToken(user.id);
+  const token = generateToken(user.id, res);
   res.status(201).json({
     status: "success",
     data: {
@@ -52,7 +52,7 @@ const login = async (req: Request, res: Response) => {
     return res.status(401).json({ message: "invalid email or password" });
   }
   // generating Token
-  const token = generateToken(user.id);
+  const token = generateToken(user.id, res);
   res.status(201).json({
     status: "success",
     data: {
