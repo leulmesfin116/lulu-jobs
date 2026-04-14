@@ -3,6 +3,14 @@ import type { Request, Response, NextFunction } from "express";
 
 import { db } from "../config/db.ts";
 
+declare global {
+  namespace Express {
+    interface Request {
+      user?: any;
+    }
+  }
+}
+
 // read the token from the request
 export const authMiddleware = async (
   req: Request,
@@ -33,5 +41,8 @@ export const authMiddleware = async (
       res.status(401).json({ error: "Not User found" });
     }
     req.user = user;
-  } catch (error) {}
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: "NOt Authorized" });
+  }
 };
