@@ -25,5 +25,13 @@ export const authMiddleware = async (
   // verify the token and extract the user
   try {
     const decode = jwt.verify(token, process.env.JWT_SECRET);
+
+    const user = await db.user.findUnique({
+      where: { id: decode.id },
+    });
+    if (!user) {
+      res.status(401).json({ error: "Not User found" });
+    }
+    req.user = user;
   } catch (error) {}
 };
