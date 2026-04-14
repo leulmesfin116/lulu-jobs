@@ -28,6 +28,20 @@ GitHub: ${github}
 Skills: ${skills}
 Experience: ${experience}
 Education: ${education}`;
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4.1-mini",
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    });
+    const rawResponse = completion.choices[0]?.message?.content;
+    if (!rawResponse) {
+      return res.status(500).json({ error: "No response from OpenAI" });
+    }
+    const data = JSON.parse(rawResponse);
   } catch (error) {
     res.status(401).json({ error: "Unable to create a resume" });
   }
