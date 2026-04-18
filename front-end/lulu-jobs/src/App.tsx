@@ -4,8 +4,12 @@ import Home from "./Home.tsx";
 function App() {
   return (
     <>
-      <Auth></Auth>
-      <Home></Home>
+      <div>
+        <Home></Home>
+        <div>
+          <Auth></Auth>
+        </div>
+      </div>
     </>
   );
 }

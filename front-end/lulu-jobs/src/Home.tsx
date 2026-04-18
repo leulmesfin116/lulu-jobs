@@ -2,7 +2,13 @@ function Home() {
   return (
     <>
       <div>
-        <h1>lulu - jobs</h1>
+        <div></div>
+        <div>
+          {" "}
+          <h1>
+            Build your <span>Resume</span> with Lulu
+          </h1>
+        </div>
       </div>
     </>
   );
