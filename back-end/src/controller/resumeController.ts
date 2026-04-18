@@ -42,7 +42,8 @@ Education: ${education}`;
       return res.status(500).json({ error: "No response from OpenAI" });
     }
     const data = JSON.parse(rawResponse);
+    return res.status(200).json(data);
   } catch (error) {
-    res.status(401).json({ error: "Unable to create a resume" });
+    return res.status(500).json({ error: "Unable to create a resume" });
   }
 };

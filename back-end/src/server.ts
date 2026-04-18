@@ -1,5 +1,6 @@
 import express from "express";
 import resumeRoute from "./Routes/resumeRoute.ts";
+import pdfRoute from "./Routes/pdfRoute.ts";
 import { config } from "dotenv";
 import { connectDb, disconnectDb } from "./config/db.ts";
 import authRoute from "./Routes/authRoute.ts";
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 // api routes
 app.use("/resume", resumeRoute);
 app.use("/auth", authRoute);
+app.use("/pdf", pdfRoute);
 
 app.get("/", (req, res) => {
   res.send("Server is up and running");
