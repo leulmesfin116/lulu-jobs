@@ -1,4 +1,3 @@
-import Auth from "./Auth.tsx";
 import Home from "./Home.tsx";
 
 function App() {
@@ -6,9 +5,7 @@ function App() {
     <>
       <div>
         <Home></Home>
-        <div>
-          <Auth></Auth>
-        </div>
+        <div></div>
       </div>
     </>
   );
