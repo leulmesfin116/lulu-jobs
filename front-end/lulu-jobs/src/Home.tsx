@@ -4,7 +4,7 @@ function Home() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 place-items-center">
         <div>
           {" "}
-          <h1 className="text-3xl text-center mt-20 font-bold">
+          <h1 className="text-5xl text-center mt-20 font-bold">
             <div className="flex flex-col lg:flex-row">
               <span>
                 Build your{" "}
@@ -18,6 +18,7 @@ function Home() {
               </span>
             </div>
           </h1>
+          <h2>Get hired faster with lulu with better resume and more job</h2>
         </div>
         <div>
           <h1 className="text-3xl text-center mt-20 font-bold"></h1> picture
