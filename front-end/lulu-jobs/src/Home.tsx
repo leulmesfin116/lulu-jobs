@@ -1,14 +1,26 @@
+import { Link } from "react-router-dom";
+
 function Home() {
   return (
     <div className="relative min-h-screen w-full overflow-x-hidden">
-      {/* Logo */}
+      {/* Logo Container */}
       <div className="absolute top-4 left-6 md:top-8 md:left-10 z-50">
-        <a
-          href="/"
-          className="text-2xl md:text-3xl font-black tracking-tighter text-black hover:text-green-500 transition-all duration-300 ease-in-out cursor-pointer"
+        <Link
+          to="/"
+          className="text-2xl md:text-3xl font-black tracking-tighter text-black hover:text-green-500 transition-all duration-300 ease-in-out cursor-pointer no-underline"
         >
           lulu
-        </a>
+        </Link>
+      </div>
+
+      {/* Login Link */}
+      <div className="absolute top-4 right-6 md:top-8 md:right-10 z-50">
+        <Link
+          to="/Auth"
+          className="text-2xl md:text-3xl font-black tracking-tighter text-black hover:text-green-500 transition-all duration-300 ease-in-out cursor-pointer no-underline"
+        >
+          login
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 place-items-center min-h-[calc(100vh-100px)] py-12 px-6">
