@@ -47,7 +47,7 @@ function Auth() {
         </form>
 
         <p className="text-center mt-8 text-gray-500 text-sm">
-          Don't have an account? <Link to="/" className="text-green-600 font-bold hover:underline">Start for free</Link>
+          Don't have an account? <Link to="/Signup" className="text-green-600 font-bold hover:underline">Start for free</Link>
         </p>
       </div>
     </div>
