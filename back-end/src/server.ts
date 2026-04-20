@@ -4,12 +4,17 @@ import pdfRoute from "./Routes/pdfRoute.ts";
 import { config } from "dotenv";
 import { connectDb, disconnectDb } from "./config/db.ts";
 import authRoute from "./Routes/authRoute.ts";
+import cors from "cors";
 config();
 connectDb();
-disconnectDb();
-
+// disconnectDb(); // Removed this line as it was closing the connection immediately
 const app = express();
 
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  }),
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

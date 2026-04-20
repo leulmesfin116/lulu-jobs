@@ -1,9 +1,21 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import PDFDocument from "pdfkit";
 
-export const generatePdf = async (req: Request, res: Response): Promise<void> => {
+export const generatePdf = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   try {
-    const { name, email, linkedin, github, summary, skills, experience, education } = req.body;
+    const {
+      name,
+      email,
+      linkedin,
+      github,
+      summary,
+      skills,
+      experience,
+      education,
+    } = req.body;
 
     const doc = new PDFDocument({ margin: 50 });
 
@@ -14,7 +26,12 @@ export const generatePdf = async (req: Request, res: Response): Promise<void> =>
 
     // Header section
     doc.fontSize(24).text(name || "Your Name", { align: "center" });
-    doc.fontSize(12).text(`${email || "Email"} | ${linkedin || "LinkedIn"} | ${github || "GitHub"}`, { align: "center" });
+    doc
+      .fontSize(12)
+      .text(
+        `${email || "Email"} | ${linkedin || "LinkedIn"} | ${github || "GitHub"}`,
+        { align: "center" },
+      );
     doc.moveDown();
 
     // Summary
@@ -29,7 +46,7 @@ export const generatePdf = async (req: Request, res: Response): Promise<void> =>
       doc.fontSize(16).text("Skills", { underline: true });
       doc.fontSize(12).text(skills.join(", "));
       doc.moveDown();
-    } else if (skills && typeof skills === 'string') {
+    } else if (skills && typeof skills === "string") {
       doc.fontSize(16).text("Skills", { underline: true });
       doc.fontSize(12).text(skills);
       doc.moveDown();
@@ -39,14 +56,14 @@ export const generatePdf = async (req: Request, res: Response): Promise<void> =>
     if (experience && Array.isArray(experience) && experience.length > 0) {
       doc.fontSize(16).text("Experience", { underline: true });
       experience.forEach((exp: any) => {
-        if (typeof exp === 'string') {
+        if (typeof exp === "string") {
           doc.fontSize(12).text(`• ${exp}`);
         } else {
           const title = exp.title || exp.role || exp.company || "Experience";
           const desc = exp.description || exp.details || exp.duration || "";
           doc.fontSize(12).text(`• ${title}`);
           if (desc) {
-             doc.fontSize(10).text(`  ${desc}`);
+            doc.fontSize(10).text(`  ${desc}`);
           }
         }
       });
@@ -57,10 +74,11 @@ export const generatePdf = async (req: Request, res: Response): Promise<void> =>
     if (education && Array.isArray(education) && education.length > 0) {
       doc.fontSize(16).text("Education", { underline: true });
       education.forEach((edu: any) => {
-        if (typeof edu === 'string') {
+        if (typeof edu === "string") {
           doc.fontSize(12).text(`• ${edu}`);
         } else {
-          const degree = edu.degree || edu.institution || edu.school || "Education";
+          const degree =
+            edu.degree || edu.institution || edu.school || "Education";
           doc.fontSize(12).text(`• ${degree}`);
         }
       });

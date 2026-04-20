@@ -28,6 +28,7 @@ const register = async (req: Request, res: Response) => {
   const token = generateToken(user.id, res);
   res.status(201).json({
     status: "success",
+    message: "user created",
     data: {
       user: {
         id: user.id,
