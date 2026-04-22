@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ThemeToggle from "../components/ThemeToggle";
 
 function Dashboard() {
@@ -24,6 +24,8 @@ function Dashboard() {
   });
 
   const [userName, setUserName] = useState("User");
+  const [showLogoutMenu, setShowLogoutMenu] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedName = localStorage.getItem("userName");
@@ -102,6 +104,19 @@ function Dashboard() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+      localStorage.removeItem("userName");
+      navigate("/Auth");
+    } catch (err) {
+      console.error("Logout error:", err);
+      // Fallback: clear local storage and redirect anyway
+      localStorage.removeItem("userName");
+      navigate("/Auth");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white dark:bg-[#050505] flex flex-col items-center py-6 md:py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       {/* Navigation / Logo */}
@@ -118,8 +133,27 @@ function Dashboard() {
             <span className="text-[10px] uppercase tracking-widest font-bold text-gray-400">Welcome</span>
             <span className="text-sm font-bold text-gray-700 dark:text-gray-300">{userName}</span>
           </div>
-          <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold shadow-lg shadow-green-500/30">
-            {userName.charAt(0).toUpperCase()}
+          <div className="relative">
+            <div 
+              onClick={() => setShowLogoutMenu(!showLogoutMenu)}
+              className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold shadow-lg shadow-green-500/30 cursor-pointer hover:scale-105 transition-all"
+            >
+              {userName.charAt(0).toUpperCase()}
+            </div>
+            
+            {showLogoutMenu && (
+              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 py-2 z-[100] animate-fade-down">
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-6 py-3 text-sm font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all flex items-center gap-2"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
