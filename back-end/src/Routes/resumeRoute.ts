@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.use(authMiddleware);
 
-router.get("/resume", generatedResume);
+router.post("/resume", generatedResume);
 router.get("/hello", (req, res) => {
   res.send({ message: "resume is being built" });
 });

@@ -29,21 +29,29 @@ Skills: ${skills}
 Experience: ${experience}
 Education: ${education}`;
     const completion = await openai.chat.completions.create({
-      model: "gpt-4.1-mini",
+      model: "gpt-4o-mini",
       messages: [
         {
           role: "user",
           content: prompt,
         },
       ],
+      response_format: { type: "json_object" },
     });
     const rawResponse = completion.choices[0]?.message?.content;
     if (!rawResponse) {
       return res.status(500).json({ error: "No response from OpenAI" });
     }
-    const data = JSON.parse(rawResponse);
+    console.log("Raw Response from OpenAI:", rawResponse);
+
+    // Clean markdown code blocks if present
+    const cleanResponse = rawResponse.replace(/```json|```/g, "").trim();
+    
+    const data = JSON.parse(cleanResponse);
     return res.status(200).json(data);
-  } catch (error) {
-    return res.status(500).json({ error: "Unable to create a resume" });
+  } catch (error: any) {
+    console.error("Resume generation error:", error);
+    const errorMessage = error.message || "Unable to create a resume";
+    return res.status(500).json({ error: errorMessage });
   }
 };

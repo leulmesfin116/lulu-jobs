@@ -28,6 +28,7 @@ function Signup() {
 
         // only navigate if successful
         if (data.status === "success") {
+          localStorage.setItem("userName", data.data.user.name);
           navigate("/Dashboard");
         }
       })

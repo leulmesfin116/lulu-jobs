@@ -52,7 +52,7 @@ function Home() {
               Create Free Resume
             </Link>
             <Link
-              to="/Dashboard"
+              to="/Signup"
               className="bg-white dark:bg-gray-800 border-2 border-green-500 text-green-600 dark:text-green-400 px-8 py-4 rounded-xl font-bold hover:bg-green-50 dark:hover:bg-gray-700 transition-all shadow-lg active:scale-95 no-underline text-center"
             >
               Get started

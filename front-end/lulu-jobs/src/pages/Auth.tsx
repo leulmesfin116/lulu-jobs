@@ -23,6 +23,7 @@ function Auth() {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success") {
+          localStorage.setItem("userName", data.data.user.name);
           navigate("/Dashboard");
         } else {
           setError(data.message || "Invalid credentials");

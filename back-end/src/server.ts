@@ -5,6 +5,7 @@ import { config } from "dotenv";
 import { connectDb, disconnectDb } from "./config/db.ts";
 import authRoute from "./Routes/authRoute.ts";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 config();
 connectDb();
 // disconnectDb(); // Removed this line as it was closing the connection immediately
@@ -17,6 +18,7 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // api routes
 app.use("/resume", resumeRoute);
