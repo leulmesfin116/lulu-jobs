@@ -1,14 +1,13 @@
 import express from "express";
 import { authMiddleware } from "../middleware/authMiddleware.ts";
-import { generatedResume } from "../controller/resumeController.ts";
 
 const router = express.Router();
 
 router.use(authMiddleware);
 
-router.post("/resume", generatedResume);
-router.get("/hello", (req, res) => {
-  res.send({ message: "resume is being built" });
+// This route is now a placeholder as generation is handled on the frontend
+router.get("/status", (req, res) => {
+  res.send({ message: "Resume service is active" });
 });
 
 export default router;

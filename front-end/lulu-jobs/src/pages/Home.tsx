@@ -1,5 +1,20 @@
 import { Link } from "react-router-dom";
 import ThemeToggle from "../components/ThemeToggle";
+import ResumeTemplate from "../components/ResumeTemplate";
+import { normalizeResumeData } from "../utils/resumeUtils";
+
+const exampleData = normalizeResumeData({
+  name: "Mr. X",
+  role: "Full Stack Developer",
+  email: "mrx@example.com",
+  github: "mrx-dev",
+  linkedin: "mrx-pro",
+  summary: "Detail-oriented Full Stack Developer specializing in backend-heavy architecture and modern web applications. Passionate about building scalable, high-performance systems and continuously expanding expertise in modern development tools.",
+  skills: "Languages: JavaScript, TypeScript\nBackend Frameworks & Runtimes: Node.js\nDatabases & ORMs: PostgreSQL, Prisma\nDevOps & Infrastructure: Docker",
+  experience: "SMS Organization — Full Stack Developer (Present)\n• Develop and maintain full-stack applications.\n• Optimize database schemas.\n• Collaborate within the organization.",
+  projects: "Begena — Song Streaming Web Application\n• Engineered a full-stack music streaming platform.\n• Built a robust backend utilizing Node.js.\n• Implemented efficient database architecture."
+});
+
 
 function Home() {
   return (
@@ -25,7 +40,8 @@ function Home() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 place-items-center min-h-[calc(100vh-100px)] py-12 px-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-160px)] py-6 md:py-12 px-6 max-w-7xl mx-auto">
+
         {/* Left Column: Text & Buttons */}
         <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-8 max-w-xl">
           <div className="animate-fade-up">
@@ -60,32 +76,24 @@ function Home() {
           </div>
         </div>
 
-        {/* Right Column: Image/Visual */}
-        <div className="w-full max-w-lg opacity-0 animate-fade-up animation-delay-600">
-          <div className="relative aspect-square bg-gradient-to-br from-green-50 to-white dark:from-gray-800 dark:to-gray-900 rounded-3xl border-2 border-green-100 dark:border-green-900/30 flex items-center justify-center p-8 shadow-2xl">
-            <div className="absolute inset-0 bg-grid-slate-100 dark:bg-grid-slate-900 opacity-10 rounded-3xl"></div>
-            <div className="relative text-center space-y-4">
-              <div className="w-24 h-24 bg-green-500/10 rounded-full mx-auto flex items-center justify-center">
-                <svg
-                  className="w-12 h-12 text-green-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  />
-                </svg>
+        <div className="w-full max-w-lg lg:max-w-md opacity-0 animate-fade-up animation-delay-600 justify-self-center lg:justify-self-end">
+          <div className="relative bg-white dark:bg-gray-800 rounded-3xl border-2 border-green-100 dark:border-green-900/30 overflow-hidden shadow-2xl transform hover:rotate-1 transition-transform duration-500 max-h-[500px] md:max-h-[600px]">
+            <div className="absolute inset-0 bg-grid-slate-100 dark:bg-grid-slate-900 opacity-5"></div>
+            
+            {/* Scaled Resume Preview */}
+            <div className="h-full w-full flex justify-center overflow-hidden bg-gray-50/30 dark:bg-gray-900/30">
+              <div className="transform scale-[0.42] md:scale-[0.48] lg:scale-[0.52] origin-top shadow-2xl pointer-events-none select-none">
+                <ResumeTemplate data={exampleData} />
               </div>
-              <p className="font-medium text-gray-400 dark:text-gray-500">
-                Your Resume Visual here
-              </p>
             </div>
+
+
+
+            {/* Overlay Gradient for Fade effect */}
+            <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-white/20 via-transparent to-transparent"></div>
           </div>
         </div>
+
       </div>
     </div>
   );

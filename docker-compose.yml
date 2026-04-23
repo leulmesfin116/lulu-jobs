@@ -1,0 +1,15 @@
+
+services:
+  backend:
+    build: ./back-end
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./back-end:/app
+
+  frontend:
+    build: ./front-end/lulu-jobs
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./front-end/lulu-jobs:/app

@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ThemeToggle from "../components/ThemeToggle";
+import ResumeTemplate from "../components/ResumeTemplate";
+import { normalizeResumeData } from "../utils/resumeUtils";
+
+
 
 function Dashboard() {
   const [formData, setFormData] = useState({
@@ -11,11 +15,18 @@ function Dashboard() {
     skills: "",
     experience: "",
     education: "",
+    summary: "",
+    role: "",
+    projects: "",
   });
+
+
 
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedResume, setGeneratedResume] = useState<any>(null);
   const [error, setError] = useState("");
+  const [showLivePreview, setShowLivePreview] = useState(false);
+
 
   const [stats] = useState({
     generatedCount: 12,
@@ -53,27 +64,15 @@ function Dashboard() {
     setError("");
     setGeneratedResume(null);
 
-    try {
-      const response = await fetch("/api/resume/resume", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setGeneratedResume(data);
-      } else {
-        setError(data.error || "Failed to generate resume");
-      }
-    } catch (err) {
-      console.error("Generation error:", err);
-      setError("An error occurred while generating your resume.");
-    } finally {
+    // Simulate a brief "generation" period for premium feel
+    setTimeout(() => {
+      const data = normalizeResumeData(formData);
+      setGeneratedResume(data);
       setIsGenerating(false);
-    }
+      setShowLivePreview(false); // Hide draft preview once "generated"
+    }, 1500);
   };
+
 
   const handleDownload = async () => {
     if (!generatedResume) return;
@@ -187,7 +186,19 @@ function Dashboard() {
                   />
                 </div>
                 <div>
+                  <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 ml-1">Professional Title</label>
+                  <input
+                    type="text"
+                    name="role"
+                    value={formData.role}
+                    onChange={handleChange}
+                    placeholder="Full Stack Developer"
+                    className="w-full px-5 py-4 bg-gray-50 dark:bg-gray-900/50 border-2 border-transparent dark:text-white rounded-2xl focus:border-green-500 focus:bg-white dark:focus:bg-gray-900 outline-none transition-all placeholder:text-gray-300 dark:placeholder:text-gray-600"
+                  />
+                </div>
+                <div>
                   <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 ml-1">Email Address</label>
+
                   <input
                     type="email"
                     name="email"
@@ -229,7 +240,19 @@ function Dashboard() {
             {/* Detailed Info */}
             <div className="space-y-6">
               <div>
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 ml-1">Professional Summary</label>
+                <textarea
+                  name="summary"
+                  value={formData.summary}
+                  onChange={handleChange}
+                  placeholder="Experienced software engineer with a focus on..."
+                  rows={3}
+                  className="w-full px-5 py-4 bg-gray-50 dark:bg-gray-900/50 border-2 border-transparent dark:text-white rounded-2xl focus:border-green-500 focus:bg-white dark:focus:bg-gray-900 outline-none transition-all placeholder:text-gray-300 dark:placeholder:text-gray-600 resize-none"
+                />
+              </div>
+              <div>
                 <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 ml-1">Technical Skills</label>
+
                 <textarea
                   name="skills"
                   value={formData.skills}
@@ -261,7 +284,19 @@ function Dashboard() {
                   className="w-full px-5 py-4 bg-gray-50 dark:bg-gray-900/50 border-2 border-transparent dark:text-white rounded-2xl focus:border-green-500 focus:bg-white dark:focus:bg-gray-900 outline-none transition-all placeholder:text-gray-300 dark:placeholder:text-gray-600 resize-none"
                 />
               </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 ml-1">Featured Projects</label>
+                <textarea
+                  name="projects"
+                  value={formData.projects}
+                  onChange={handleChange}
+                  placeholder="Begena — Song Streaming Web Application&#10;• Engineered a full-stack music streaming platform..."
+                  rows={4}
+                  className="w-full px-5 py-4 bg-gray-50 dark:bg-gray-900/50 border-2 border-transparent dark:text-white rounded-2xl focus:border-green-500 focus:bg-white dark:focus:bg-gray-900 outline-none transition-all placeholder:text-gray-300 dark:placeholder:text-gray-600 resize-none"
+                />
+              </div>
             </div>
+
 
             {error && (
               <div className="mx-6 md:mx-12 mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded-2xl text-center text-sm font-bold">
@@ -287,61 +322,55 @@ function Dashboard() {
                   Generating...
                 </>
               ) : (
-                "Generate AI Resume"
+                "Generate Resume"
               )}
             </button>
+
           </form>
 
-          {/* Generated Resume Preview */}
-          {generatedResume && (
+          {/* Preview Toggle */}
+          <div className="px-6 md:px-12 pb-4">
+            <button
+              onClick={() => setShowLivePreview(!showLivePreview)}
+              className="text-xs font-bold text-gray-400 hover:text-green-500 transition-colors uppercase tracking-widest flex items-center gap-2"
+            >
+              <div className={`w-2 h-2 rounded-full ${showLivePreview ? 'bg-green-500 animate-pulse' : 'bg-gray-300'}`}></div>
+              {showLivePreview ? "Hide Live Preview" : "Show Live Preview"}
+            </button>
+          </div>
+
+          {/* Live Preview / Generated Preview */}
+          {(generatedResume || showLivePreview) && (
             <div className="p-6 md:p-12 bg-gray-50 dark:bg-gray-900/30 border-t border-gray-100 dark:border-gray-800 animate-fade-up">
               <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-                <h2 className="text-xl md:text-2xl font-black dark:text-white">Resume Preview</h2>
-                <button
-                  onClick={handleDownload}
-                  className="bg-black dark:bg-white text-white dark:text-black px-8 py-3 rounded-xl font-bold hover:scale-105 transition-all flex items-center gap-2 shadow-lg"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                  Download PDF
-                </button>
+                <h2 className="text-xl md:text-2xl font-black dark:text-white">
+                  {generatedResume ? "Final Resume Preview" : "Draft Preview"}
+                </h2>
+                {generatedResume && (
+                  <button
+                    onClick={handleDownload}
+                    className="bg-black dark:bg-white text-white dark:text-black px-8 py-3 rounded-xl font-bold hover:scale-105 transition-all flex items-center gap-2 shadow-lg"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                    Download PDF
+                  </button>
+                )}
               </div>
               
-              <div className="bg-white dark:bg-[#050505] p-8 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
-                <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold dark:text-white">{generatedResume.name}</h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">
-                    {generatedResume.email} | {generatedResume.linkedin} | {generatedResume.github}
-                  </p>
-                </div>
-                
-                <div className="space-y-4">
-                  <section>
-                    <h4 className="font-bold border-b border-gray-100 dark:border-gray-800 pb-1 mb-2 dark:text-white">Summary</h4>
-                    <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{generatedResume.summary}</p>
-                  </section>
-                  
-                  <section>
-                    <h4 className="font-bold border-b border-gray-100 dark:border-gray-800 pb-1 mb-2 dark:text-white">Skills</h4>
-                    <p className="text-sm text-gray-700 dark:text-gray-300">{Array.isArray(generatedResume.skills) ? generatedResume.skills.join(", ") : generatedResume.skills}</p>
-                  </section>
-                  
-                  <section>
-                    <h4 className="font-bold border-b border-gray-100 dark:border-gray-800 pb-1 mb-2 dark:text-white">Experience</h4>
-                    <div className="space-y-3">
-                      {Array.isArray(generatedResume.experience) && generatedResume.experience.map((exp: any, i: number) => (
-                        <div key={i}>
-                          <p className="text-sm font-bold dark:text-white">{typeof exp === 'string' ? exp : (exp.title || exp.role || exp.company)}</p>
-                          {exp.description && <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">{exp.description}</p>}
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-                </div>
+              <div className="transform scale-[0.9] md:scale-100 origin-top">
+                <ResumeTemplate 
+                  data={normalizeResumeData(generatedResume || {
+                    ...formData,
+                    summary: "This is a live preview of your resume. Click 'Generate Resume' to create a professional summary and format your experience."
+                  })} 
+                />
               </div>
+
             </div>
           )}
+
         </div>
 
         {/* Statistics Section */}
