@@ -1,0 +1,4 @@
+[build]
+  base = "front-end/lulu-jobs"
+  command = "npm install && npm run build"
+  publish = "dist"
