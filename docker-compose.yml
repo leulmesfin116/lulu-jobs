@@ -3,13 +3,17 @@ services:
   backend:
     build: ./back-end
     ports:
-      - "5000:5000"
+      - "5001:5000"
     volumes:
       - ./back-end:/app
+      - /app/node_modules
 
   frontend:
     build: ./front-end/lulu-jobs
     ports:
-      - "5173:5173"
+      - "5174:5173"
     volumes:
       - ./front-end/lulu-jobs:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://backend:5000
