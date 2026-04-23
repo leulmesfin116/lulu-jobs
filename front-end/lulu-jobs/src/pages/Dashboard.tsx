@@ -394,16 +394,6 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* Action Message */}
-        <div className="bg-gray-900 dark:bg-green-900/20 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between text-center md:text-left gap-6 border dark:border-green-500/10">
-          <div>
-            <h3 className="text-white text-xl font-bold">Ready to get hired?</h3>
-            <p className="text-gray-400 dark:text-green-500/60 text-sm">Download your optimized resume and start applying today.</p>
-          </div>
-          <button className="w-full md:w-auto bg-white dark:bg-green-500 text-gray-900 dark:text-white px-8 py-3 rounded-xl font-bold hover:bg-green-500 dark:hover:bg-green-600 hover:text-white transition-all">
-            View History
-          </button>
-        </div>
       </div>
     </div>
   );

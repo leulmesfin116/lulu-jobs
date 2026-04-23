@@ -113,23 +113,6 @@ function Signup() {
             />
           </div>
 
-          <div className="flex items-start items-center gap-2 px-1">
-            <input
-              type="checkbox"
-              className="rounded text-green-500 focus:ring-green-500"
-              required
-            />
-            <span className="text-xs text-gray-500 dark:text-gray-400">
-              I agree to the{" "}
-              <span className="text-green-600 dark:text-green-400 font-semibold cursor-pointer">
-                Terms of Service
-              </span>{" "}
-              and{" "}
-              <span className="text-green-600 dark:text-green-400 font-semibold cursor-pointer">
-                Privacy Policy
-              </span>
-            </span>
-          </div>
 
           <button
             type="submit"
@@ -139,38 +122,6 @@ function Signup() {
           </button>
         </form>
 
-        <div className="relative my-8">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-100 dark:border-gray-700"></div>
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-white dark:bg-gray-800 px-2 text-gray-400 dark:text-gray-500 font-medium">
-              Or continue with
-            </span>
-          </div>
-        </div>
-
-        <button className="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 py-3 rounded-xl font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all flex items-center justify-center gap-2 active:scale-[0.98]">
-          <svg className="w-5 h-5" viewBox="0 0 24 24">
-            <path
-              fill="#EA4335"
-              d="M12 5.04c1.94 0 3.51.68 4.67 1.77L20.1 3.37C17.91 1.31 15.01 0 12 0 7.31 0 3.25 2.67 1.21 6.6l3.86 3C6.01 7.02 8.79 5.04 12 5.04z"
-            />
-            <path
-              fill="#4285F4"
-              d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58l3.86 3c2.26-2.09 3.56-5.17 3.56-8.82z"
-            />
-            <path
-              fill="#FBBC05"
-              d="M5.07 14.56c-.22-.66-.34-1.36-.34-2.06 0-.7.12-1.4.34-2.06L1.21 7.44C.44 9.06 0 10.92 0 12.87c0 1.95.44 3.81 1.21 5.43l3.86-3.74z"
-            />
-            <path
-              fill="#34A853"
-              d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.47 1.14-4.07 1.14-3.13 0-5.78-2.11-6.73-4.96l-3.86 3C3.25 21.33 7.31 24 12 24z"
-            />
-          </svg>
-          Google
-        </button>
 
         <p className="text-center mt-8 text-gray-500 dark:text-gray-400 text-sm">
           Already have an account?{" "}
